@@ -1,38 +1,37 @@
-# Définition des questions du QCM
-questions = {
-    "Quel est le langage utilisé pour le développement web côté client ?": {
-        "options": ["1. Python", "2. JavaScript", "3. Java", "4. C++"],
-        "réponse": 2
-    },
-    "Quelle est la capitale de la France ?": {
-        "options": ["1. Berlin", "2. Madrid", "3. Paris", "4. Rome"],
-        "réponse": 3
-    },
-    "Combien font 5 * 6 ?": {
-        "options": ["1. 30", "2. 25", "3. 35", "4. 40"],
-        "réponse": 1
-    }
-}
+def lire_questions(fichier):
+    """Lit les questions et réponses depuis un fichier."""
+    questions = []
+    with open(fichier, "r", encoding="utf-8") as f:
+        for ligne in f:
+            question, options, reponse = ligne.strip().split("|")
+            options = options.split(",")
+            questions.append((question, options, int(reponse)))
+    return questions
 
-# Initialisation du score
-score = 0
-
-# Parcours des questions
-for question, data in questions.items():
+def poser_question(question, options, reponse_correcte):
+    """Pose une question et vérifie la réponse."""
     print("\n" + question)
-    for option in data["options"]:
-        print(option)
+    for i, option in enumerate(options, 1):
+        print(f"{i}. {option}")
     
-    # Récupération de la réponse utilisateur
     try:
-        réponse_utilisateur = int(input("Votre réponse (1-4) : "))
-        if réponse_utilisateur == data["réponse"]:
+        reponse_utilisateur = int(input("Votre réponse (1-4) : "))
+        if reponse_utilisateur == reponse_correcte:
             print("✅ Bonne réponse !")
-            score += 1
+            return 1
         else:
-            print("❌ Mauvaise réponse.")
+            print(f"❌ Mauvaise réponse. La bonne réponse était : {options[reponse_correcte - 1]}")
+            return 0
     except ValueError:
         print("⚠️ Entrée invalide, réponse ignorée.")
+        return 0
 
-# Affichage du score final
+# Programme principal
+fichier_questions = "questions.txt"
+questions = lire_questions(fichier_questions)
+score = 0
+
+for question, options, reponse in questions:
+    score += poser_question(question, options, reponse)
+
 print(f"\nVotre score final : {score} / {len(questions)}")
