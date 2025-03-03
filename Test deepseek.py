@@ -1,89 +1,97 @@
-import random
-
 def lire_fichier_questions(nom_fichier):
-    with open(nom_fichier, 'r', encoding='utf-8') as fichier:
-        lignes = fichier.readlines()
-    
+    """
+    Lit le fichier texte contenant les questions et les réponses.
+    Retourne une liste de dictionnaires, chaque dictionnaire représentant une question.
+    """
     questions = []
+    try:
+        with open(nom_fichier, 'r', encoding='utf-8') as fichier:
+            lignes = fichier.readlines()
+    except FileNotFoundError:
+        print(f"Erreur: Le fichier '{nom_fichier}' n'a pas été trouvé.")
+        return questions
+
     i = 0
     while i < len(lignes):
+        # Ignorer les lignes vides
         if lignes[i].strip() == '':
             i += 1
             continue
-        
+
+        # Lire la question
         question = lignes[i].strip()
-        reponses = [lignes[i+j+1].strip() for j in range(4)]
-        bonne_reponse = int(lignes[i+5].strip())
+        i += 1
+
+        # Lire les 4 réponses
+        reponses = [lignes[i + j].strip() for j in range(4)]
+        i += 4
+
+        # Lire le numéro de la bonne réponse
+        bonne_reponse = int(lignes[i].strip())
+        i += 1
+
+        # Ajouter la question à la liste
         questions.append({
             'question': question,
             'reponses': reponses,
             'bonne_reponse': bonne_reponse
         })
-        i += 7  # Passer à la prochaine question
-    
+
     return questions
 
-def generer_sujets(questions, nb_eleves, nb_questions_par_eleve, graine):
-    random.seed(graine)
-    sujets = []
-    correction = []
-    
-    for eleve in range(1, nb_eleves + 1):
-        questions_eleve = random.sample(questions, nb_questions_par_eleve)
-        sujet = []
-        corrige = []
-        
-        for q in questions_eleve:
-            reponses = q['reponses'].copy()
-            bonne_reponse = reponses[q['bonne_reponse'] - 1]
-            random.shuffle(reponses)
-            nouvelle_bonne_reponse = reponses.index(bonne_reponse) + 1
-            
-            sujet.append({
-                'question': q['question'],
-                'reponses': reponses
-            })
-            corrige.append({
-                'question': q['question'],
-                'bonne_reponse': nouvelle_bonne_reponse
-            })
-        
-        sujets.append(sujet)
-        correction.append(corrige)
-    
-    return sujets, correction
+def afficher_question(question):
+    """
+    Affiche une question et ses réponses.
+    """
+    print(question['question'])
+    for idx, reponse in enumerate(question['reponses']):
+        print(f"{idx + 1}. {reponse}")
 
-def ecrire_sujets(sujets, prefixe_fichier):
-    for i, sujet in enumerate(sujets):
-        with open(f"{prefixe_fichier}_eleve_{i+1}.txt", 'w', encoding='utf-8') as fichier:
-            for j, q in enumerate(sujet):
-                fichier.write(f"Question {j+1}:\n")
-                fichier.write(f"{q['question']}\n")
-                for k, reponse in enumerate(q['reponses']):
-                    fichier.write(f"{k+1}. {reponse}\n")
-                fichier.write("\n")
+def demander_reponse():
+    """
+    Demande à l'utilisateur de saisir sa réponse.
+    Retourne un entier correspondant au numéro de la réponse choisie.
+    """
+    while True:
+        try:
+            choix = int(input("Votre réponse (1-4) : "))
+            if 1 <= choix <= 4:
+                return choix
+            else:
+                print("Veuillez entrer un nombre entre 1 et 4.")
+        except ValueError:
+            print("Veuillez entrer un nombre valide.")
 
-def ecrire_correction(correction, nom_fichier):
-    with open(nom_fichier, 'w', encoding='utf-8') as fichier:
-        for i, corrige in enumerate(correction):
-            fichier.write(f"Sujet {i+1}:\n")
-            for j, q in enumerate(corrige):
-                fichier.write(f"Question {j+1}: {q['bonne_reponse']}\n")
-            fichier.write("\n")
+def jouer_qcm(questions):
+    """
+    Joue le QCM en affichant chaque question et en vérifiant les réponses.
+    """
+    score = 0
+    for idx, question in enumerate(questions):
+        print(f"\nQuestion {idx + 1}:")
+        afficher_question(question)
+        choix_utilisateur = demander_reponse()
+        if choix_utilisateur == question['bonne_reponse']:
+            print("Bonne réponse !")
+            score += 1
+        else:
+            print(f"Mauvaise réponse. La bonne réponse était : {question['bonne_reponse']}")
+
+    print(f"\nVotre score final est de {score}/{len(questions)}")
 
 def main():
-    nom_fichier_questions = input("Entrez le nom du fichier contenant les questions: ")
-    nb_eleves = int(input("Entrez le nombre d'élèves: "))
-    nb_questions_par_eleve = int(input("Entrez le nombre de questions par élève (5, 10, 15 ou 20): "))
-    graine = int(input("Entrez la graine pour la génération aléatoire: "))
-    
-    questions = lire_fichier_questions(nom_fichier_questions)
-    sujets, correction = generer_sujets(questions, nb_eleves, nb_questions_par_eleve, graine)
-    
-    ecrire_sujets(sujets, "sujet")
-    ecrire_correction(correction, "correction.txt")
-    
-    print("Les sujets et le fichier de correction ont été générés avec succès.")
+    """
+    Fonction principale du programme.
+    """
+    nom_fichier = input("Entrez le nom du fichier contenant les questions : ")
+    questions = lire_fichier_questions(nom_fichier)
+
+    if not questions:
+        print("Aucune question n'a été chargée. Vérifiez le fichier.")
+        return
+
+    print("\nBienvenue au QCM !")
+    jouer_qcm(questions)
 
 if __name__ == "__main__":
     main()
