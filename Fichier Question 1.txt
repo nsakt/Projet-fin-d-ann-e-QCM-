@@ -1,0 +1,13 @@
+Question 1:
+Quelle est la capitale de la France ?
+1. Madrid
+2. Paris
+3. Berlin
+4. Londres
+
+Question 2:
+Quel est le plus grand océan du monde ?
+1. Pacifique
+2. Atlantique
+3. Arctique
+4. Indien
