@@ -7,10 +7,7 @@ class Question :
 
     def __init__ (self) :
         self.enonce = None
-        self.repa = None
-        self.repb = None
-        self.repc = None
-        self.repd = None
+        self.reponses = []
         self.bonnerep = None
 
 
@@ -25,18 +22,23 @@ def create_enonce_eleves(chemin_liste, nb_eleves, nb_questions, graine):
             match compt_task:
                 case 1:
                     None
+                    compt_task =+ 1
+
 
                 case 2 | 3 | 4 | 5:
                     None
+                    compt_task =+ 1
 
                 case 6:
                     None
+                    compt_task =+ 1
 
                 case 7:
                     None
+                    compt_task =+ 1
             
                 case 8:
-                    None
+                    compt_task = 1
 
             # Print each line
             print(line.strip())
