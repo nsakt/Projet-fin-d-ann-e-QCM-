@@ -1,5 +1,7 @@
 import os
 import random
+from docx import Document
+
 
 class Question :
 
@@ -104,9 +106,8 @@ def create_correction_enonce(Enonce_Base):
             subliste_rep.append(elt[i].bonnerep)
         liste_rep_enonce.append(subliste_rep)
         subliste_rep=[]
-        
 
-    print(liste_rep_enonce)
+
 
 
 
@@ -127,3 +128,7 @@ for elt in Enonce_test:
         print (elt[i].enonce)
 
 create_correction_enonce(Enonce_test)
+
+document = Document()
+paragraph = document.add_paragraph('Lorem ipsum dolor sit amet.')
+document.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finanneedemo\\TEST.docx')
