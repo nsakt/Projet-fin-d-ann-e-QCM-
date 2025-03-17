@@ -114,26 +114,24 @@ def create_correction_enonce(Enonce_Base):
 def create_doc_correction(liste_corrections,nom_document):
     doc_corrige = Document()
     doc_corrige.add_paragraph('Sujet 1')
-    templistcorrec =[]
-    tempstring = None
+    tempstring = ''
     for elt in liste_corrections :
         for i in range(len(elt)):
             match elt[i]:
                 case 1:
-                    templistcorrec.append("a")
+                    tempstring += 'a'
 
                 case 2:
-                    templistcorrec.append("b")
+                    tempstring += 'b'
                 
                 case 3:
-                    templistcorrec.append("c")
+                    tempstring += 'c'
                 
                 case 4:
-                    templistcorrec.append("d")
-            
-            tempstring += templistcorrec
-        doc_corrige.add_paragraph(tempstring)
-        templistcorrec =[]
+                    tempstring += 'd'
+        tempstring += ' '
+                
+    doc_corrige.add_paragraph(tempstring)
     doc_corrige.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
 
 
