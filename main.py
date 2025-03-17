@@ -15,7 +15,7 @@ class Question :
         return len(self.reponses)
 
 
-def create_enonce_eleves(chemin_liste, nb_eleves, nb_questions):
+def create_enonce_eleve(chemin_liste, nb_questions):
     """Création d'une liste de questions a partir d'un fichier texte formaté comme décrit dans l'exercice, selon un nombre d'élèves"""
 
     with open(chemin_liste, 'r') as file:
@@ -73,13 +73,7 @@ def create_enonce_eleves(chemin_liste, nb_eleves, nb_questions):
 
                         print("DEBUG - Liste total :", ListeQuestions)
                         
-
-
-            # Print each line
-            '''print(line.strip())
-        contents = file.read()'''
     return ListeQuestions
-
 
 def shuffle_enonce_eleves(ListeBase):
     random.shuffle(ListeBase)
@@ -88,6 +82,18 @@ def shuffle_enonce_eleves(ListeBase):
         for i in range(4):
             if elt.reponses[i] == elt.bonnereptext:
                 elt.bonnerep = i+1
+    return ListeBase
+
+
+def create_enonce_eleves(chemin_liste, nb_questions, nb_eleve):
+
+    Enonce_Final = []
+    Liste_Questions_Temp = []
+    for i in range(nb_eleve):
+        Liste_Questions_Temp = create_enonce_eleve(chemin_liste,nb_questions)
+        Liste_Questions_Temp = shuffle_enonce_eleves(Liste_Questions_Temp)
+        Enonce_Final.append(Liste_Questions_Temp)
+    return Enonce_Final
 
 
 
@@ -101,7 +107,5 @@ def shuffle_enonce_eleves(ListeBase):
 
 #zone de test
 
-Enonce_test = create_enonce_eleves('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\QCM_cinema.txt',10,10)
+Enonce_test = create_enonce_eleves('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\QCM_cinema.txt',5,5)
 print(Enonce_test)
-
-shuffle_enonce_eleves(Enonce_test)
