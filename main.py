@@ -1,7 +1,6 @@
 import os
 import random
 
-
 class Question :
 
     """Classe pour question"""
@@ -91,9 +90,11 @@ def shuffle_enonce_eleves(ListeBase):
                 elt.bonnerep = i+1
 
 
-def create_correction_prof(ListeBase):
-    list
-    for elt in ListeBase:
+
+
+
+
+
 
 
 
