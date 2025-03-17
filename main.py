@@ -78,6 +78,7 @@ def create_enonce_eleve(chemin_liste, nb_questions):
     return ListeQuestions
 
 def shuffle_enonce_eleves(ListeBase):
+    """Mélange l'énoncé d'un élève (une liste de questions) induviduels tout en gardant trace de la bonne réponse"""
     random.shuffle(ListeBase)
     for elt in ListeBase:
         random.shuffle(elt.reponses)
@@ -88,7 +89,7 @@ def shuffle_enonce_eleves(ListeBase):
 
 
 def create_enonce_eleves(chemin_liste, nb_questions, nb_eleve):
-
+    """Crée une liste d'énoncés mélangés pour un nombre donné d'élèves, utilisant les fonctions précédentes"""
     Enonce_Final = []
     Liste_Questions_Temp = []
     for i in range(nb_eleve):
@@ -99,6 +100,7 @@ def create_enonce_eleves(chemin_liste, nb_questions, nb_eleve):
 
 
 def create_correction_enonce(Enonce_Base):
+    """Crée une liste de set de réponses pour les énoncés donnés, sous forme de ints"""
     liste_rep_enonce=[]
     subliste_rep=[]
     for elt in Enonce_Base:
@@ -106,7 +108,28 @@ def create_correction_enonce(Enonce_Base):
             subliste_rep.append(elt[i].bonnerep)
         liste_rep_enonce.append(subliste_rep)
         subliste_rep=[]
+    return liste_rep_enonce
 
+def create_doc_correction(liste_corrections,nom_document):
+    doc_corrige = Document()
+    templistcorrec =[]
+    for elt in liste_corrections :
+        for i in range(len(elt)):
+            match elt[i]:
+                case 1:
+                    templistcorrec.append("a")
+
+                case 2:
+                    templistcorrec.append("b")
+                
+                case 3:
+                    templistcorrec.append("c")
+                
+                case 4:
+                    templistcorrec.append("d")
+        doc_corrige.add_paragraph(templistcorrec)
+        templistcorrec =[]
+    doc_corrige.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
 
 
 
@@ -127,8 +150,6 @@ for elt in Enonce_test:
     for i in range(5):
         print (elt[i].enonce)
 
-create_correction_enonce(Enonce_test)
+Correction_Test = create_correction_enonce(Enonce_test)
 
-document = Document()
-paragraph = document.add_paragraph('Lorem ipsum dolor sit amet.')
-document.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finanneedemo\\TEST.docx')
+create_doc_correction(Correction_Test,"TestCorrection")
