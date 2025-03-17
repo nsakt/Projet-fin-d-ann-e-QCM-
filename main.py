@@ -112,10 +112,13 @@ def create_correction_enonce(Enonce_Base):
     return liste_rep_enonce
 
 def create_doc_correction(liste_corrections,nom_document):
+    
+    
     doc_corrige = Document()
-    doc_corrige.add_paragraph('Sujet 1')
     tempstring = ''
+    cmpt_sujets=1
     for elt in liste_corrections :
+        doc_corrige.add_paragraph('Sujet ' + str(cmpt_sujets))
         for i in range(len(elt)):
             match elt[i]:
                 case 1:
@@ -129,7 +132,9 @@ def create_doc_correction(liste_corrections,nom_document):
                 
                 case 4:
                     tempstring += 'd'
-        tempstring += ' '
+        cmpt_sujets += 1
+        doc_corrige.add_paragraph(tempstring)
+        tempstring = ''
                 
     doc_corrige.add_paragraph(tempstring)
     doc_corrige.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
