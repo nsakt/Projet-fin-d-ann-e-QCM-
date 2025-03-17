@@ -96,6 +96,17 @@ def create_enonce_eleves(chemin_liste, nb_questions, nb_eleve):
     return Enonce_Final
 
 
+def create_correction_enonce(Enonce_Base):
+    liste_rep_enonce=[]
+    subliste_rep=[]
+    for elt in Enonce_Base:
+        for i in range(len(elt)):
+            subliste_rep.append(elt[i].bonnerep)
+        liste_rep_enonce.append(subliste_rep)
+        subliste_rep=[]
+        
+
+    print(liste_rep_enonce)
 
 
 
@@ -109,3 +120,10 @@ def create_enonce_eleves(chemin_liste, nb_questions, nb_eleve):
 
 Enonce_test = create_enonce_eleves('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\QCM_cinema.txt',5,5)
 print(Enonce_test)
+
+for elt in Enonce_test:
+    print("----------------------")
+    for i in range(5):
+        print (elt[i].enonce)
+
+create_correction_enonce(Enonce_test)
