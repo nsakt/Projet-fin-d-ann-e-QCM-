@@ -1,6 +1,8 @@
 import os
 import random
+from docx.shared import Pt
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
 
@@ -101,7 +103,7 @@ def create_enonce_eleves(chemin_liste, nb_questions, nb_eleve):
     return Enonce_Final
 
 
-def create_correction_enonce(Enonce_Base):
+def create_correction_enonce(Enonce_Base):  
     """Crée une liste de set de réponses pour les énoncés donnés, sous forme de ints"""
     liste_rep_enonce=[]
     subliste_rep=[]
@@ -112,6 +114,42 @@ def create_correction_enonce(Enonce_Base):
         subliste_rep=[]
     print(liste_rep_enonce)
     return liste_rep_enonce
+
+
+def create_doc_sujets(enonce_total,nom_document):
+    doc_sujet = Document()
+    tempstring = ''
+    cmpt_sujets=1
+    for elt in enonce_total:
+        doc_sujet.add_paragraph('Sujet ' + str(cmpt_sujets))
+        for i in range(len(elt)):
+            doc_sujet.add_paragraph('Question : ' + str(i+1))
+            doc_sujet.add_paragraph(elt[i].enonce)
+            for f in range(4):
+                match f:
+                    case 0 :
+                        tempstring += 'a -'
+                    
+                    case 1 :
+                        tempstring += 'b -'
+
+                    case 2 :
+                        tempstring += 'c -'
+
+                    case 3 :
+                        tempstring += 'd -'
+
+                tempstring += str(elt[i].reponses[f]) + ' '
+
+            doc_sujet.add_paragraph(tempstring)
+            tempstring = ''
+        cmpt_sujets +=1
+        doc_sujet.add_page_break()
+    
+
+    doc_sujet.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
+
+
 
 def create_doc_correction(liste_corrections,nom_document):
     
@@ -167,6 +205,8 @@ for elt in Enonce_test:
     print("----------------------")
     for i in range(5):
         print (elt[i].enonce)
+
+create_doc_sujets(Enonce_test,"TestEnonce")
 
 Correction_Test = create_correction_enonce(Enonce_test)
 
