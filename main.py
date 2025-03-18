@@ -3,6 +3,7 @@ import random
 from docx import Document
 
 
+
 class Question :
 
     """Classe pour question"""
@@ -15,6 +16,7 @@ class Question :
 
     def __len__(self):
         return len(self.reponses)
+    
 
 
 def create_enonce_eleve(chemin_liste, nb_questions):
@@ -117,6 +119,7 @@ def create_doc_correction(liste_corrections,nom_document):
     doc_corrige = Document()
     tempstring = ''
     cmpt_sujets=1
+    cmpt_space=1
     for elt in liste_corrections :
         doc_corrige.add_paragraph('Sujet ' + str(cmpt_sujets))
         for i in range(len(elt)):
@@ -132,9 +135,16 @@ def create_doc_correction(liste_corrections,nom_document):
                 
                 case 4:
                     tempstring += 'd'
+            if cmpt_space == 5:
+                tempstring += ' '
+                cmpt_space = 1
+            else:
+                cmpt_space += 1
+        
         cmpt_sujets += 1
         doc_corrige.add_paragraph(tempstring)
         tempstring = ''
+        doc_corrige.add_paragraph(tempstring)
                 
     doc_corrige.add_paragraph(tempstring)
     doc_corrige.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
@@ -150,7 +160,7 @@ def create_doc_correction(liste_corrections,nom_document):
 
 #zone de test
 
-Enonce_test = create_enonce_eleves('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\QCM_cinema.txt',5,5)
+Enonce_test = create_enonce_eleves('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\QCM_cinema.txt',20,5)
 print(Enonce_test)
 
 for elt in Enonce_test:
