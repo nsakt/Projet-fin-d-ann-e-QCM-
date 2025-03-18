@@ -117,59 +117,6 @@ def create_correction_enonce(Enonce_Base):
     return liste_rep_enonce
 
 
-def create_doc_sujets(enonce_total,nom_document):
-    doc_sujet = Document()
-    
-
-
-    tempstring = ''
-    cmpt_sujets=1
-    for elt in enonce_total:
-        doc_sujet.add_paragraph('Nom et Prenom : ')
-        doc_sujet.add_paragraph('Sujet ' + str(cmpt_sujets))
-        for i in range(len(elt)):
-            paragraph = doc_sujet.add_paragraph('Question : ' + str(i+1))
-            doc_sujet.add_paragraph(elt[i].enonce)
-
-           
-            paragraph_format = paragraph.paragraph_format
-            paragraph_format.space_before, paragraph_format.space_after
-            (None, None)  # inherited by default
-
-            paragraph_format.space_before = Pt(3)
-            paragraph_format.space_before.pt
-            3
-
-            paragraph_format.space_after = Pt(3)
-            paragraph_format.space_after.pt
-            3
-            tempstring += ' | '
-            
-            for f in range(4):
-                match f:
-                    case 0 :
-                        tempstring += 'a -'
-                    
-                    case 1 :
-                        tempstring += 'b -'
-
-                    case 2 :
-                        tempstring += 'c -'
-
-                    case 3 :
-                        tempstring += 'd -'
-
-                tempstring += str(elt[i].reponses[f]) + ' | '
-
-            paragraph = doc_sujet.add_paragraph(tempstring)
-            tempstring = ''
-        cmpt_sujets +=1
-        doc_sujet.add_page_break()
-    
-
-    doc_sujet.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
-
-
 
 def create_doc_correction(liste_corrections,nom_document):
     
@@ -218,8 +165,31 @@ def create_doc_sujets_run(enonce_total,nom_document):
     tempstring = ''
     cmpt_sujets=1
 
+
+
     for elt in enonce_total:
         doc_sujet = Document()
+        doc_sujet.add_paragraph("Réponses : ")
+        table = doc_sujet.add_table(rows=2, cols=11)
+        doc_sujet.add_paragraph("")
+        table2 = doc_sujet.add_table(rows=2, cols=11)
+        for i in range(10):
+            cell = table.cell(0, i)
+            if i < 5 :
+                cell.text = str(i+1)
+            else :
+                cell = table.cell(0, i+1)
+                cell.text = str(i+1)
+
+        for i in range(10):
+            cell = table2.cell(0, i)
+            if i < 5 :
+                cell.text = str(i+11)
+            else :
+                cell = table2.cell(0, i+1)
+                cell.text = str(i+11)
+        doc_sujet.add_paragraph("")
+        
         run = doc_sujet.add_paragraph().add_run()
         font = run.font
         font.name = 'Calibri'
@@ -256,13 +226,13 @@ def create_doc_sujets_run(enonce_total,nom_document):
             run.add_break()
             run.add_break()
             tempstring = ''
+
+            
+
+
         doc_sujet.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\' + nom_document + 'sujet' + str(cmpt_sujets) +'.docx')
         cmpt_sujets +=1
-        
 
-    
-
-    doc_sujet.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\'+nom_document+'.docx')
 
 
 
@@ -281,12 +251,3 @@ create_doc_sujets_run(Enonce_test,"TestEnonce")
 Correction_Test = create_correction_enonce(Enonce_test)
 
 create_doc_correction(Correction_Test,"TestCorrection")
-
-
-document = Document()
-run = document.add_paragraph().add_run()
-font = run.font
-font.name = 'Calibri'
-font.size = Pt(100)
-run.add_text('SUCK IT')
-document.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\tester.docx')
