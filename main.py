@@ -189,7 +189,7 @@ def create_doc_sujets_run(enonce_total,nom_document):
                 cell = table2.cell(0, i+1)
                 cell.text = str(i+11)
         doc_sujet.add_paragraph("")
-        
+
         run = doc_sujet.add_paragraph().add_run()
         font = run.font
         font.name = 'Calibri'
@@ -227,13 +227,13 @@ def create_doc_sujets_run(enonce_total,nom_document):
             run.add_break()
             tempstring = ''
 
-            
-
 
         doc_sujet.save('C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\' + nom_document + 'sujet' + str(cmpt_sujets) +'.docx')
         cmpt_sujets +=1
 
-
+def programme_principal(chemin_fichier_questions, nb_eleves, nb_questions, nom_fichier_sortie, chemin_sortie) :
+    None
+    
 
 
 #zone de test
@@ -251,3 +251,4 @@ create_doc_sujets_run(Enonce_test,"TestEnonce")
 Correction_Test = create_correction_enonce(Enonce_test)
 
 create_doc_correction(Correction_Test,"TestCorrection")
+
