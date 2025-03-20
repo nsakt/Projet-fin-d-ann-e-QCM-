@@ -2,6 +2,7 @@ import os
 import random
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from tkinter import *
 
 class Question:
     """Classe pour question"""
@@ -213,6 +214,9 @@ def run_program():
 # Création de l'interface graphique
 root = tk.Tk()
 root.title("Générateur de QCM")
+small_icon = tk.PhotoImage(file = 'small_icon.png')
+large_icon = tk.PhotoImage(file = 'large_icon.png')
+root.iconphoto(False, large_icon, small_icon)
 
 # Frame pour les entrées
 frame = tk.Frame(root)
