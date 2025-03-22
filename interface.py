@@ -214,8 +214,8 @@ def run_program():
 # Création de l'interface graphique
 root = tk.Tk()
 root.title("Générateur de QCM")
-small_icon = tk.PhotoImage(file = 'small_icon.png')
-large_icon = tk.PhotoImage(file = 'large_icon.png')
+small_icon = tk.PhotoImage(file = 'C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\small_icon.png')
+large_icon = tk.PhotoImage(file = 'C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\large_icon.png')
 root.iconphoto(False, large_icon, small_icon)
 
 # Frame pour les entrées
