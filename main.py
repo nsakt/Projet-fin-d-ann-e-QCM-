@@ -7,6 +7,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import *
+from pathlib import Path
 
 
 
@@ -273,9 +274,10 @@ def run_program():
 # Création de l'interface graphique
 root = tk.Tk()
 root.title("Générateur de QCM")
-small_icon = tk.PhotoImage(file = 'C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\small_icon.png')
-large_icon = tk.PhotoImage(file = 'C:\\Users\\Nicolas\\Desktop\\repo MNS\\python_exo_finannee\\large_icon.png')
-root.iconphoto(False, large_icon, small_icon)
+current_directory = os.path.abspath(os.path.dirname(__file__))
+icon_path = os.path.join(current_directory, "large_icon.ico")
+if Path(icon_path).exists():
+    root.iconbitmap(icon_path)
 
 # Frame pour les entrées
 frame = tk.Frame(root)
